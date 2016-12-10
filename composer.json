@@ -1,0 +1,22 @@
+{
+	"name": "whatsbrand/silverstripe-shopify-auth",
+	"type": "silverstripe-module",
+	"description": "Silverstripe Connect to shopify",
+	"license": "BSD-3-Clause",
+	"keywords": ["silverstripe", "framework"],
+	"authors": [
+		{
+			"name": "Andre Lohmann",
+			"homepage": "https://github.com/andrelohmann"
+		},
+		{
+			"name": "Eduard Malyj",
+			"homepage": "https://github.com/eduardma"
+		}
+	],
+	"require": {
+		"php": ">=5.3.2",
+		"composer/installers": "*"
+	},
+	"minimum-stability": "stable"
+}

@@ -51,4 +51,15 @@ class ShopifyMember extends DataExtension {
   public static function get_shopify_error_path(){
     return self::$shopify_error_path;
   }
+  
+  private static $db = array(
+    "Email" => "Varchar(255)",
+    "AccessToken" => "Varchar(255)",
+    "Shop" => "Varchar(255)"
+  );
+  
+  private static $indexes = array(
+    "Shop" => true
+  );
+
 }

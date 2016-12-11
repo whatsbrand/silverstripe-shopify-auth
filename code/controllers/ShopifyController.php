@@ -8,12 +8,13 @@ class ShopifyController extends Controller {
   
   private static $allowed_actions = array(
     'install',
+    'signup',
     'auth',
     'error'
   );
   
   public function init() {
-      parent::init();
+    parent::init();
   }
   
   public function install() {
@@ -21,17 +22,32 @@ class ShopifyController extends Controller {
       // missing shop parameter
       return $this->redirect(ShopifyMember::get_shopify_error_path());
     }
-  	if (!preg_match('/^[a-zA-Z0-9\-]+.myshopify.com$/', $_GET['shop'])) {
-  	  // Invalid myshopify.com store URL.
+    if (!preg_match('/^[a-zA-Z0-9\-]+.myshopify.com$/', $_GET['shop'])) {
+      // Invalid myshopify.com store URL.
       return $this->redirect(ShopifyMember::get_shopify_error_path());
-  	}
-
-  	$client = ShopifyClient($_GET['shop'], "", ShopifyMember::get_shopify_api_key(), ShopifyMember::get_shopify_shared_key());
+    }
+    
+    $client = \whatsbrand\shopifyapi\ShopifyClient($_GET['shop'], "", ShopifyMember::get_shopify_api_key(), ShopifyMember::get_shopify_shared_key());
     return $this->redirect($client->getInstallUrl());
   }
   
   public function auth() {
-    $client = new ShopifyClient($_GET['shop'], "", ShopifyMember::get_shopify_api_key(), ShopifyMember::get_shopify_shared_key());
+    if (!isset($_GET['shop'])) {
+      // missing shop parameter
+      return $this->redirect(ShopifyMember::get_shopify_error_path());
+    }
+    if($o_Member = Member::get()->filter(array('Shop' => $_GET['shop']))->First()){
+      // Shopify member found
+      // login and redirect
+      $o_Member->logIn();
+      return $this->redirect(Security::config()->default_login_dest);
+    } else{
+      return $this->redirect(TwitterMember::get_signup_path());
+    }
+  }
+  
+  public function signup() {
+    $client = new \whatsbrand\shopifyapi\ShopifyClient($_GET['shop'], "", ShopifyMember::get_shopify_api_key(), ShopifyMember::get_shopify_shared_key());
     
     if (!$client->validateSignature($_GET)) {
       return $this->redirect(ShopifyMember::get_shopify_error_path());
@@ -49,8 +65,16 @@ class ShopifyController extends Controller {
       if (isset($_GET['code'])) {
         $oauth_token = $client->getAccessToken($_GET['code']);
         
-        Session::set('oauth_token', $oauth_token);
-        Session::set('shop', $_GET['shop']);
+        // Session::set('oauth_token', $oauth_token);
+        // Session::set('shop', $_GET['shop']);
+        
+        $o_Member = new Member();
+        
+        $o_Member->AccessToken = $oauth_token;
+        
+        $o_Member->Shop = $_GET['shop'];
+        
+        $o_Member->Email = "info@".$_GET['shop']; 
       }
     }
     catch (ShopifyApiException $e)

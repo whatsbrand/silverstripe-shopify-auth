@@ -10,7 +10,9 @@ class ShopifyMember extends DataExtension {
   
   private static $shopify_scope = null;
   
-  private static $shopify_error_url = null;
+  private static $shopify_signup_path = null;
+  
+  private static $shopify_error_path = null;
   
   public static function set_shopify_api_key($key){
     self::$shopify_api_key = $key;
@@ -21,7 +23,7 @@ class ShopifyMember extends DataExtension {
   }
   
   public static function set_shopify_shared_key($secret){
-    self::$shopify_shared_key = $key;
+    self::$shopify_shared_key = $secret;
   }
   
   public static function get_shopify_shared_key(){
@@ -29,7 +31,7 @@ class ShopifyMember extends DataExtension {
   }
   
   public static function set_shopify_callback_url($url){
-    self::$shopify_callback_url = $key;
+    self::$shopify_callback_url = $url;
   }
   
   public static function get_shopify_callback_url(){
@@ -37,15 +39,23 @@ class ShopifyMember extends DataExtension {
   }
   
   public static function set_shopify_scope($scope){
-    self::$shopify_scope = $key;
+    self::$shopify_scope = $scope;
   }
   
   public static function get_shopify_scope(){
     return self::$shopify_scope;
   }
   
-  public static function set_shopify_error_path($url){
-    self::$shopify_error_path = $key;
+  public static function set_shopify_signup_path($path){
+    self::$shopify_signup_path = $path;
+  }
+  
+  public static function get_shopify_signup_path(){
+    return self::$shopify_signup_path;
+  }
+  
+  public static function set_shopify_error_path($path){
+    self::$shopify_error_path = $path;
   }
   
   public static function get_shopify_error_path(){

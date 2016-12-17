@@ -10,8 +10,6 @@ class ShopifyMember extends DataExtension {
   
   private static $shopify_scope = null;
   
-  private static $shopify_signup_path = null;
-  
   private static $shopify_error_path = null;
   
   public static function set_shopify_api_key($key){
@@ -44,14 +42,6 @@ class ShopifyMember extends DataExtension {
   
   public static function get_shopify_scope(){
     return self::$shopify_scope;
-  }
-  
-  public static function set_shopify_signup_path($path){
-    self::$shopify_signup_path = $path;
-  }
-  
-  public static function get_shopify_signup_path(){
-    return self::$shopify_signup_path;
   }
   
   public static function set_shopify_error_path($path){

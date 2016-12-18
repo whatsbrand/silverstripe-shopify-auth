@@ -37,6 +37,8 @@ class ShopifyController extends Controller {
   }
   
   public function install() {
+    
+    if(Member::currentUser()) return $this->redirect(Security::config()->default_login_dest);
     //   https://pepper.vagrantshare.com/shopify/install?shop=pepper-test-store.myshopify.com
     if (!isset($_GET['shop'])) {
       // missing shop parameter
@@ -51,6 +53,9 @@ class ShopifyController extends Controller {
   }
   
   public function auth() {
+    
+    if(Member::currentUser()) return $this->redirect(Security::config()->default_login_dest);
+    
     if (!isset($_GET['shop'])) {
       // missing shop parameter
       return $this->redirect(ShopifyMember::get_shopify_error_path());
@@ -62,7 +67,7 @@ class ShopifyController extends Controller {
       return $this->redirect(Security::config()->default_login_dest);
     } else {
       $client = new \whatsbrand\shopifyapi\ShopifyClient($_GET['shop'], "", ShopifyMember::get_shopify_api_key(), ShopifyMember::get_shopify_shared_key());
-      // TODO: Should be transfered to shopifyclient ---->
+      // TODO: Should be transferred to shopifyclient ---->
       if (isset($_GET['url']))
         unset($_GET['url']);
       // <-----
@@ -81,8 +86,8 @@ class ShopifyController extends Controller {
         if (isset($_GET['code'])) {
           $oauth_token = $client->getAccessToken($_GET['code']);
           
-          Session::set('oauth_token', $oauth_token);
-          Session::set('shop', $_GET['shop']);
+          // Session::set('oauth_token', $oauth_token);
+          // Session::set('shop', $_GET['shop']);
           
           $o_Member = new Member();
           

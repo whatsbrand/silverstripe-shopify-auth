@@ -2,12 +2,6 @@
 
 Member::add_extension('ShopifyMember');
 
-define('SHOPIFY_APP_API_KEY', '3f2b4ee5a07f500596e0573a9c139098');
-define('SHOPIFY_APP_SHARED_SECRET', 'd0b88d619f1baa1456e267a2480d3cec');
-define('SHOPIFY_APP_CALLBACK_URL', 'https://pepper.vagrantshare.com/shopify/auth');
-define('SHOPIFY_APP_SCOPE', 'read_content,write_content,read_themes,write_themes,read_products,write_products,read_customers,write_customers,read_orders,write_orders,read_script_tags,write_script_tags,read_fulfillments,write_fulfillments,read_shipping,write_shipping');
-define('SHOPIFY_ERROR_PATH', 'https://pepper.vagrantshare.com/shopify/error');
-
 /**
  * ShopifyMember
  */

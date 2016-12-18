@@ -16,8 +16,7 @@
 	],
 	"require": {
 		"php": ">=5.3.2",
-		"composer/installers": "*",
-		"whatsbrand/php-shopify-api-client": "^0.4.0"
+		"composer/installers": "*"
 	},
 	"minimum-stability": "stable"
 }

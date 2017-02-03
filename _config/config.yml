@@ -1,7 +1,0 @@
----
-Name: silverstripe-shopify-auth
-After: framework/*
----
-Member:
-  extensions:
-    - ShopifyMember

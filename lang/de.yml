@@ -1,0 +1,4 @@
+de:
+  ShopifyAuth:
+    ERRORTITLE: 'Shopify App Login - Fehler'
+    ERRORCONTENT: 'Ein Fehler ist aufgetreten.'

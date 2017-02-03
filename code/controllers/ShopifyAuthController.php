@@ -56,14 +56,17 @@ class ShopifyAuthController extends Controller {
       return $this->redirect(ShopifyAuthRequest::config()->error_path);
     }else{
 
-      $client = new \whatsbrand\shopifyapi\ShopifyClient($_GET['shop'], "", ShopifyAuthRequest::config()->api_key, ShopifyAuthRequest::config()->shared_secret);
+      // unset silverstripe parameter "url", otherwise the validation will fail
+      unset($_GET['url']);
+
+      $client = new \whatsbrand\shopifyapi\ShopifyClient($_GET['shop'], "", ShopifyAuthRequest::config()->app_key, ShopifyAuthRequest::config()->shared_secret);
 
       // validate the signature
       if($client->validateSignature($_GET)){
         // If shop allready installed the application
         if($o_Member = Member::get()->filter(array('ShopifyShop' => $_GET['shop']))->First()){
           // check for still working access_token
-          $shopify = new \whatsbrand\shopifyapi\ShopifyClient($o_Member->ShopifyShop, $o_Member->ShopifyAccessToken, ShopifyAuthRequest::config()->api_key, ShopifyAuthRequest::config()->shared_secret);
+          $shopify = new \whatsbrand\shopifyapi\ShopifyClient($o_Member->ShopifyShop, $o_Member->ShopifyAccessToken, ShopifyAuthRequest::config()->app_key, ShopifyAuthRequest::config()->shared_secret);
 
         	try
         	{
@@ -99,7 +102,7 @@ class ShopifyAuthController extends Controller {
             $oauth_token = $client->getAccessToken($_GET['code']);
 
             // fetch basic information from shop
-            $shopify = new \whatsbrand\shopifyapi\ShopifyClient($_GET['shop'], $oauth_token, ShopifyAuthRequest::config()->api_key, ShopifyAuthRequest::config()->shared_secret);
+            $shopify = new \whatsbrand\shopifyapi\ShopifyClient($_GET['shop'], $oauth_token, ShopifyAuthRequest::config()->app_key, ShopifyAuthRequest::config()->shared_secret);
 
             try
             {
@@ -116,6 +119,8 @@ class ShopifyAuthController extends Controller {
                 $o_Member->ShopifyId = $shop['id'];
 
                 $o_Member->Email = "info@".$_GET['shop'];
+
+                $o_Member->write();
 
                 $o_Member->logIn();
 
